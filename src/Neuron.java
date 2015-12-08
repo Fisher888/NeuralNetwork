@@ -1,6 +1,10 @@
 import java.lang.Math;
+
 import java.util.ArrayList;
 import java.util.Random;
+
+import Jama.Matrix;
+
 
 
 /**
@@ -10,68 +14,73 @@ import java.util.Random;
  */
 public class Neuron {
 
-	private double input;
+	
+	private Matrix inputs;
+	private Matrix weights;
 	private double output;
+	
+
 	private ActivationFunction function;
-	private ArrayList<Double> inputWeights;
+	
+	
 
-	public Neuron(Layer l, ActivationFunction function) {
-		Random rand = new Random();
-		this.function = function;
-		input = 0;
-		output = 0;
-		inputWeights = new ArrayList<Double>();
+	public Neuron(Matrix inputs, ActivationFunction function) {
 		
-		for(int i=0;i<l.getNeurons().size();i++){
-			inputWeights.add(rand.nextDouble());
+		this.function=function;
+		this.inputs=inputs;
+		this.output=1;
+		
+		weights = new Matrix(1,inputs.getColumnDimension());
+		
+		Random rand = new Random();
+		for(int i=0;i<weights.getRowDimension();i++){
+			weights.set(1, i, rand.nextDouble());
 		}
-
 	}
 
 	
-	/**
-	 * returns input of the neuron
-	 */
-	public double getInput() {
-		return input;
-	}
 
-	/**
-	 * returns output of neuron
-	 */
 	public double getOutput() {
 		return output;
 	}
-
+	
 	/**
 	 * calculates input, runs it through activation function,
 	 * returns 1 if neuron fires
 	 * @param l input neuron Layer
 	 */
-	public double act(Layer l) {
-		double temp;
-
-		setInput(l);
-		temp = function.activate(input); // activation function (Sigmoid)
-
-		if (temp >= 1)
-			return 1;
-		else
-			return 0;
+	public void act(Matrix inputs) {
+	
+		this.inputs=inputs;
+		
+		output = activate(inputs.times(weights));
+		
+	
+		
 	}
 	
-	/**
-	 * sets input to the sum all input neurons multiplied
-	 * by their corresponding weights
-	 * @param l Input Layer of neurons
-	 */
-	private void setInput(Layer l) {
-		int i = 0;
-
-		for (Neuron n : l.getNeurons()) {
-
-			input = input + (n.getOutput() * this.inputWeights.get(i));
-			i++;
+	private double activate(Matrix m) {
+		double sum = 0;
+		
+		for(int i=0;i<m.getRowDimension();i++){
+			for(int j=0;j<m.getColumnDimension();j++){
+				sum=+ m.get(i, j);
+			}
 		}
+		
+		sum=function.activate(sum);
+		
+		return sum;
 	}
-}
+
+	/**
+	 * updates weight of neuron
+	 * by their corresponding weights
+	 * @param error the error from back propigation function
+	 */
+	public void update(double error){
+		
+	}
+	
+	}
+	
