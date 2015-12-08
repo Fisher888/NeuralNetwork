@@ -36,6 +36,21 @@ public class TrainingSet {
 	    workbook.close();
 		}
 	
+	public int getNumberOfInputs() {
+		return numberOfInputs;
+	}
+	
+	public int getNumberOfOutputs() {
+		return numberOfOutputs;
+	}
+
+	public int getNumberOfTrials() {
+		return numberOfTrials;
+	}
+
+	public Matrix getInputs(int trial) {
+		
+	}
 	public static void main(String[] args) throws BiffException, IOException {
 		TrainingSet t = new TrainingSet("TrainingSet1.xls");
 	
