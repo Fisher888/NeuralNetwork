@@ -16,25 +16,13 @@ import jxl.read.biff.BiffException;
  */
 public class Network {
 	
-	Matrix inputData;
+	private TrainingSet data;
 	
-	//public static final int NUM_HIDDEN_LAYERS;
-	//public static final int NUM_HIDDEN_NEURONS;
+	public Network(String fileName, int numberOfHiddenLayers, int neuronsPerLayer) throws BiffException, IOException{
+		
+	data = new TrainingSet(fileName);
 	
-	public Network() throws BiffException, IOException{
-	Workbook workbook = Workbook.getWorkbook(new File("test.xls"));
-    Sheet sheet = workbook.getSheet(0);
-    Cell cell1 = sheet.getCell(0, 1);
     
-    String v = cell1.getContents();
-    String v2 = sheet.getCell(0,2).getContents();
-    
-    int x;
-    x= v.
-    System.out.println(v+v2);
-   
-    
-    workbook.close();
 	}
 	
 	
